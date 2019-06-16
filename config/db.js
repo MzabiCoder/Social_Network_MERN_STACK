@@ -3,10 +3,13 @@ const config = require('config')
 
 const db = config.get('mongoURI') // using this config we can get any variables in  default.json
 
+
+mongoose.set('useCreateIndex', true);
+
 const connectDB = async () => {
     try {
         await mongoose.connect(db, {
-            useNewUrlParser: true
+            useNewUrlParser: true,
         })
         console.log("MongoDB Connected...")
     } catch (err) {

@@ -7,7 +7,10 @@ const app = express()
 //DataBase Connection
 connectDB()
 
-
+// Intialize bodyParse
+app.use(express.json({
+    extended: false
+}))
 
 
 // Define Routes
