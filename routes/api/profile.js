@@ -84,7 +84,42 @@ router.post('/me', [auth, [
         profileFields.skills = skills.split(',').map(skill => skill.trim())
     }
 
-    console.log(profileFields.skills)
+    profileFields.social = {}
+    if (youtube) profileFields.social.youtube = youtube
+    if (facebook) profileFields.social.facebook = facebook
+    if (twitter) profileFields.social.twitter = twitter
+    if (instagram) profileFields.social.instagram = instagram
+
+    try {
+
+        // check if there is a profile then we update it and return profile on json format 
+
+        let profile = await Profile.findOne({
+            user: req.user.id
+        })
+        if (profile) {
+            profile = await Profile.findOneAndUpdate({
+                user: req.user.id
+            }, {
+                $set: profileFields
+            }, {
+                new: true
+            })
+
+            return res.json(profile)
+        }
+
+        // if its not found we create i and return profile on json format 
+
+        profile = new Profile(profileFields)
+        profile.save()
+        res.json(profile)
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send("server is Down....")
+    }
+
 
 })
 
