@@ -39,7 +39,7 @@ router.get('/me', auth, async (req, res) => {
 //@desc    Create or update user profile
 //@access  Private
 
-router.post('/me', [auth, [
+router.post('/', [auth, [
     check('status', 'Status is required')
     .not()
     .isEmpty(),
@@ -75,7 +75,7 @@ router.post('/me', [auth, [
     const profileFields = {}
     profileFields.user = req.user.id
     if (company) profileFields.company = company
-    if (website) profileFields.webiste = website
+    if (website) profileFields.website = website
     if (location) profileFields.location = location
     if (bio) profileFields.bio = bio
     if (status) profileFields.status = status
@@ -89,6 +89,8 @@ router.post('/me', [auth, [
     if (facebook) profileFields.social.facebook = facebook
     if (twitter) profileFields.social.twitter = twitter
     if (instagram) profileFields.social.instagram = instagram
+    if (linkedin) profileFields.social.linkedin = linkedin
+
 
     try {
 
@@ -121,6 +123,48 @@ router.post('/me', [auth, [
     }
 
 
+})
+
+
+
+//@route   GET api/profiles
+//@desc    Test route
+//@access  Public
+
+
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar'])
+        res.json(profiles)
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send('Server is down...')
+    }
+})
+
+// // get profile ny user id 
+//@route   GET api/profiles/user/:user id
+//@desc    get profile by user id 
+//@access  Public
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({
+            user: req.params.user_id
+        }).populate('user', ['name', 'avatar'])
+
+        if (!profile) {
+            return res.status(500).json({
+                message: "no profile with for this user"
+            })
+        }
+
+        res.json(profile)
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send('Server is down...')
+    }
 })
 
 

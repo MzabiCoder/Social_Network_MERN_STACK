@@ -5,6 +5,7 @@ const db = config.get('mongoURI') // using this config we can get any variables 
 
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 const connectDB = async () => {
     try {

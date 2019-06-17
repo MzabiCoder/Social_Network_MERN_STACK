@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 
+
+
+
 const ProfileSchema = new mongoose.Schema({
 
     // we need to make a reference to user to be able to connect both of them
