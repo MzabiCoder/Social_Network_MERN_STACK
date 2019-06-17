@@ -1,6 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const gravata = require('gravatar')
+const config = require('config')
+const gravatar = require('gravatar')
+const bycrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 const {
     check,
     validationResult
@@ -10,8 +14,6 @@ const User = require('../../models/User')
 
 
 //@route   POST api/users
-//@desc    Register User
-//@access  Public
 router.post('/', [
     check('name', 'Name is required')
     .not()
@@ -31,10 +33,6 @@ router.post('/', [
     }
 
 
-
-
-
-
     const {
         name,
         email,
@@ -48,7 +46,9 @@ router.post('/', [
             email
         })
         if (user) {
-            res.status(400).json({
+
+            // always put return if its not the last res.json or res.send  !!
+            return res.status(400).json({
                 errors: [{
                     msg: 'User already exists...!!!'
                 }]
@@ -57,7 +57,7 @@ router.post('/', [
 
         // get user gravatar
 
-        const gravata = gravatar.url(email, {
+        const avatar = gravatar.url(email, {
             s: '200',
             r: 'pg',
             d: 'mm'
@@ -70,14 +70,37 @@ router.post('/', [
             password
         })
 
-        //encrypt password
+        //encrypt password and anything that return promise we need to put await in front of it
+        const salt = await bycrypt.genSalt(10)
+        user.password = await bycrypt.hash(password, salt)
+        await user.save()
 
 
-        // return jsonwebtoken and this because on the react i want the user to login immediately(thats why the user has to have that token)
-        res.send('User Route')
+        // setup JWT (return jsonwebtoken and this because on the react i want the user to login immediately thats why the user has to have that token)
+
+        const payload = {
+            user: {
+                id: user.id,
+            }
+        }
+
+        jwt.sign(
+            payload,
+            config.get('jwtsecret'), {
+                expiresIn: 360000
+            }, (err, token) => {
+                if (err) throw err
+                res.json({
+                    token
+                })
+            }
+        )
+
+
+        // res.send('User Registered')
     } catch (err) {
         console.log(err)
-        //  res.status(500).send('Server is....')
+        res.status(500).send('Server is....')
     }
 
 

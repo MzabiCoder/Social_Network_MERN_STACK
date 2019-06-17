@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb://User1:nabil123@ds137827.mlab.com:37827/social_network_mern_udemy"
+    "mongoURI": "mongodb://User1:nabil123@ds137827.mlab.com:37827/social_network_mern_udemy",
+    "jwtsecret": "mysecrettoken"
 }
