@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Profile = require('../../models/Profile')
 const auth = require('../../middleware/auth')
+const request = require('request')
+const config = require('config')
 const {
     check,
     validationResult
@@ -375,6 +377,38 @@ router.delete('/education/:id', auth, async (req, res) => {
 })
 
 
+//@route   del api/profile/github/:username
+//@desc    get github info
+//@access  Private
+
+router.get('/github/:username', async (req, res) => {
+    try {
+
+        const options = {
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=vreated:asc&client_id=${config.get('github_client_ID')}&client_secret=${config.get('github_client_secret')}`,
+            method: 'GET',
+            headers: {
+                'user-agent': 'node.js'
+            }
+        }
+
+        request(options, (err, response, body) => {
+            if (err) console.log(err)
+            if (response.statusCode !== 200) {
+                res.status(404).json({
+                    message: 'No Github profile found'
+                })
+            }
+            res.json(JSON.parse(body)) // body is a regular string with escappted quot thats why we wrapped it on JSON.parse() before send it
+        })
+
+
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send('Server is down...')
+    }
+})
 
 
 module.exports = router

@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb://User1:nabil123@ds137827.mlab.com:37827/social_network_mern_udemy",
-    "jwtsecret": "mysecrettoken"
+    "jwtsecret": "mysecrettoken",
+    "github_client_secret": "8f380d097c1ff3eaf30498041be8873ede7d2e49",
+    "github_client_ID": "Iv1.1768eff037aa70bf"
 }
