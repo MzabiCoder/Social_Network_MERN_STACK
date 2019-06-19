@@ -24,14 +24,6 @@ app.use('/api/posts', require('./routes/api/posts'))
 
 
 
-
-app.get('/', (req, res) => {
-    res.send('Hellow WOrld')
-})
-
-
-
-
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, () => {
