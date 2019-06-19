@@ -11,7 +11,7 @@ const App=()=> {
     <Router>
     <Fragment>
       <Navbar/>
-      <Route exact={true} path="/" component={Landing}/>
+      <Route exact path="/" component={Landing}/>
       <section className="container">
       <Switch>
       <Route exact path="/register" component={Register}/>
