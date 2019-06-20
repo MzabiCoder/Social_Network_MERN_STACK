@@ -14,6 +14,8 @@ const User = require('../../models/User')
 
 
 //@route   POST api/users
+// create user 
+// Private
 router.post('/', [
     check('name', 'Name is required')
     .not()
