@@ -3,9 +3,10 @@ import {Fragment,useState} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {setAlert} from '../../action/alert'
+import {register} from '../../action/auth'
 import PropTypes from 'prop-types';
 
-const Register = ({setAlert}) => {
+const Register = ({setAlert,register}) => {
 
    const [FormatData,SetFormatData]= useState({
      name:'',
@@ -58,7 +59,7 @@ const Register = ({setAlert}) => {
     setAlert('password not match!!','danger')
     }else {
      
-      console.log('SUCCESS')
+      register({name,email,password})
     }
   }
 
@@ -70,7 +71,7 @@ const Register = ({setAlert}) => {
         <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
         <form className="form" onSubmit={Submit} >
           <div className="form-group">
-            <input type="text" placeholder="Name" name="name" required  value={name} onChange={onChange} />
+            <input type="text" placeholder="Name" name="name"  value={name} onChange={onChange} />
           </div>
           <div className="form-group">
             <input  onChange={onChange} type="email" placeholder="Email Address" value={email}name="email" />
@@ -82,7 +83,7 @@ const Register = ({setAlert}) => {
               type="password"
               placeholder="Password"
               name="password"
-              minLength="6"
+              
               onChange={onChange}
               value={password}
              
@@ -94,7 +95,7 @@ const Register = ({setAlert}) => {
               type="password"
               placeholder="Confirm Password"
               name="password2"
-              minLength="6"
+              
               onChange={onChange}
               value={password2}
             />
@@ -110,7 +111,8 @@ const Register = ({setAlert}) => {
 }
 
 Register.propTypes={
-  setAlert:PropTypes.func.isRequired
+  setAlert:PropTypes.func.isRequired,
+  register:PropTypes.func.isRequired
 }
 
-export default connect(null,{setAlert})(Register)
+export default connect(null,{setAlert,register})(Register)
