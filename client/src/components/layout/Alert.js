@@ -1,11 +1,13 @@
-import React,{Fragment} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux'
 
+
 const Alert = ({alerts}) => alerts !== null && alerts.length > 0 && alerts.map(alert=>(
-    <Fragment key={alert.id} classNme={`alert alert-${alert.alert.Type}`}>
+   
+    <div key={alert.id} className={`alert alert-${alert.alertType}`}>
     {alert.msg}
-    </Fragment>
+    </div>
 ))
 
 Alert.propTypes = {
