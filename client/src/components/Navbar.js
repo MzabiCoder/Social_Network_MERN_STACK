@@ -5,8 +5,39 @@ import {logout} from '../action/auth'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-const Navbar = ({logout,isAuthenticated}) => {
-    return (
+const Navbar = ({auth:{loading,isAuthenticated},logout}) => {
+  const gestLink=(
+    <ul>
+    <li>
+    <a href="#!">Developers</a>
+    </li>
+
+    <li>
+    <Link to="/register"  >Register</Link> 
+    </li>
+
+    <li>
+    <Link to="/login">Login</Link> 
+    </li>
+    
+  </ul>
+  )  
+
+  const authlink=(
+    <ul>
+    <li>
+    <a onClick={logout} href="">
+    <i className="fas fa-sign-out-alt"></i>{' '}
+    <span className="hide-sm"> Logout</span></a>
+    </li>
+
+    
+  </ul>
+  ) 
+
+
+  
+  return (
         <Fragment>
         <nav className="navbar bg-dark">
       <h1>
@@ -15,20 +46,7 @@ const Navbar = ({logout,isAuthenticated}) => {
         <i className="fas fa-code"></i> DevConnector
         </Link>
       </h1>
-      <ul>
-        <li>
-        <a href="">Developers</a>
-        </li>
-
-        <li>
-        { (!isAuthenticated) ? <Link to="/register"  >Register</Link> : null }
-        </li>
-
-        <li>
-        { (!isAuthenticated) ? <Link to="/login">Login</Link> : null }
-        </li>
-        
-      </ul>
+     {!loading && (<Fragment>{isAuthenticated ? authlink :gestLink}</Fragment>)}
     </nav>
     </Fragment>
          
@@ -39,13 +57,11 @@ const Navbar = ({logout,isAuthenticated}) => {
 
 Navbar.propTypes={
  login:PropTypes.func.isRequired,
- isAuthentificated:PropTypes.bool
-
-
+ auth:PropTypes.object.isRequired
 }
 
-const mapTstatToprops=state=>({
-  isAuthenticated:state.auth.isAuthenticated
+const map=state=>({
+ auth:state.auth
 })
 
-export default connect(mapTstatToprops,{logout})(Navbar)
+export default connect(map,{logout})(Navbar)
