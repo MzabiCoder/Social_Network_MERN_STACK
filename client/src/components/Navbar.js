@@ -1,8 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {Fragment} from 'react'
+import {logout} from '../action/auth'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 
-const Navbar = () => {
+const Navbar = ({logout,isAuthenticated}) => {
     return (
         <Fragment>
         <nav className="navbar bg-dark">
@@ -18,11 +21,11 @@ const Navbar = () => {
         </li>
 
         <li>
-        <Link to="/register">Register</Link>
+        { (!isAuthenticated) ? <Link to="/register"  >Register</Link> : null }
         </li>
 
         <li>
-        <Link to="/login">Login</Link>
+        { (!isAuthenticated) ? <Link to="/login">Login</Link> : null }
         </li>
         
       </ul>
@@ -34,4 +37,15 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+Navbar.propTypes={
+ login:PropTypes.func.isRequired,
+ isAuthentificated:PropTypes.bool
+
+
+}
+
+const mapTstatToprops=state=>({
+  isAuthenticated:state.auth.isAuthenticated
+})
+
+export default connect(mapTstatToprops,{logout})(Navbar)

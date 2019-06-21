@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {
-    REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERROR
+    REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERROR,LOGIN_FAIL,LOGIN_SUCCESS,LOG_OUT
 } from './types'
 
 import {setAlert} from '../action/alert'
@@ -49,6 +49,8 @@ export  const register=({name,email,password})=> async dispatch =>{
            payload:res.data
        })
 
+       dispatch(LoadUser())
+
       
 
    }catch(err){
@@ -62,3 +64,40 @@ export  const register=({name,email,password})=> async dispatch =>{
       })
    }
 }
+
+export  const login=(email,password)=> async dispatch =>{
+    const config={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+ 
+    // preparing the data to send
+    const body=JSON.stringify({email,password})
+ 
+    try{
+        const res= await axios.post('/api/auth',body,config)
+        dispatch({
+            type:LOGIN_SUCCESS,
+            payload:res.data
+        })
+        dispatch(LoadUser())
+ 
+       
+ 
+    }catch(err){
+        const errors=err.response.data.errors 
+        
+        if (errors){
+            errors.forEach(error=>dispatch(setAlert(error.msg,'danger')))
+        }
+       dispatch({
+         type:LOGIN_FAIL
+       })
+    }
+ }
+
+ export const logout=()=>dispatch=>{
+ 
+    dispatch({type:LOG_OUT})
+ }
