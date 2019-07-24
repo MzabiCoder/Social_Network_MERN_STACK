@@ -8,6 +8,7 @@ import Register from './components/auth/Register'
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import Alert from './components/layout/Alert'
 import PrivateRoute from  './components/routing/PrivateRoute'
+import CreateProfile from './components/profile-forms/CreateProfile'
 import {LoadUser} from './action/auth'
 import setAuthToken from './utils/setAuthToken'
 import {Provider} from 'react-redux'
@@ -34,6 +35,7 @@ const App=()=> {
       <Route  path='/register' component={Register}/>
       <Route  path='/login' component={Login}/>
       <Route  path='/dashboard' component={Dashboard}/>
+      <Route  path='/create-profile' component={CreateProfile}/>
       </Switch>
       </section>
      

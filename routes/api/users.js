@@ -14,7 +14,7 @@ const User = require('../../models/User')
 
 
 //@route   POST api/users
-// create user 
+// Register user 
 // Private
 router.post('/', [
     check('name', 'Name is required')
@@ -102,7 +102,7 @@ router.post('/', [
         // res.send('User Registered')
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server is....')
+        res.status(500).send('Server error')
     }
 
 

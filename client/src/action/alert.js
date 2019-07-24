@@ -4,7 +4,7 @@ import uuid from 'uuid'
 
 // we are able to do this injection of dispatch because of the middleware  
 
-export const setAlert=(msg,alertType,timeout=2000)=>dispatch=>{
+export const setAlert=(msg,alertType,timeout=5000)=>dispatch=>{
     const id=uuid.v4()
     dispatch({
         type:SET_ALERT,

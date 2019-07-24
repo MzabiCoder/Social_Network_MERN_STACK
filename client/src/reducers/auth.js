@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL,LOG_OUT} from '../action/types'
+import {REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,AUTH_ERROR,CLEAR_PROFILE,LOGIN_SUCCESS,LOGIN_FAIL,LOG_OUT} from '../action/types'
 
 
 const Istate={
@@ -46,6 +46,14 @@ export default function (state=Istate,action){
            isAuthenticated:false,
            loading:false
        }
+
+       case CLEAR_PROFILE:
+           return{
+               ...state,
+               repos:[],
+               profile:null,
+               loading:false
+           }
 
        default:
            return state
