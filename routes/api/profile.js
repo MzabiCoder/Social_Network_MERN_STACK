@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Profile = require('../../models/Profile')
+const User = require('../../models/User')
 const auth = require('../../middleware/auth')
 const request = require('request')
 const config = require('config')
@@ -12,7 +13,7 @@ const {
 
 //@route   GET api/profile
 //@desc    Test route
-//@access  Public
+//@access  Private
 router.get('/me', auth, async (req, res) => {
 
     try {
@@ -23,7 +24,7 @@ router.get('/me', auth, async (req, res) => {
 
         if (!profile) {
             return res.status(400).json({
-                message: `There os nor profilr for this user : ${req.user.id}`
+                message: `There os nor profilr for this user : ${req.user.name}`
             })
         }
 
@@ -85,6 +86,7 @@ router.post('/', [auth, [
     if (skills) {
         profileFields.skills = skills.split(',').map(skill => skill.trim())
     }
+    //console.log(profileFields.skills)
 
     profileFields.social = {}
     if (youtube) profileFields.social.youtube = youtube
@@ -116,7 +118,7 @@ router.post('/', [auth, [
         // if its not found we create i and return profile on json format 
 
         profile = new Profile(profileFields)
-        profile.save()
+        await profile.save()
         res.json(profile)
 
     } catch (err) {
@@ -145,6 +147,8 @@ router.get('/', async (req, res) => {
     }
 })
 
+
+
 // // get profile ny user id 
 //@route   GET api/profiles/user/:user id
 //@desc    get profile by user id 
@@ -165,6 +169,7 @@ router.get('/user/:user_id', async (req, res) => {
 
     } catch (err) {
         console.log(err.message)
+        // if the req.params not an id we still show   message: 'Profile not found' like listed bellow
         if (err.kind == 'ObjectId') {
             return res.status(400).json({
                 message: 'Profile not found'
@@ -184,9 +189,11 @@ router.delete('/', auth, async (req, res) => {
     // remove profile
     try {
 
+        // remove the profile
         await Profile.findOneAndRemove({
             user: req.user.id
         })
+        //remove user
         await User.findOneAndRemove({
             _id: req.user.id
         })
@@ -254,7 +261,7 @@ router.put('/experience', [auth, [
 
     } catch (err) {
         console.log(err.message)
-        res.status(500).send('Server is down')
+        res.status(500).send('Server is down....')
     }
 })
 
@@ -281,6 +288,11 @@ router.delete('/experience/:id', auth, async (req, res) => {
 
     } catch (err) {
         console.log(err.message)
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({
+                message: 'experience not found'
+            })
+        }
         res.status(500).send('Server Down....')
     }
 })
@@ -344,8 +356,9 @@ router.put('/education', [auth, [
 
     } catch (err) {
         console.log(err.message)
-        res.status(500).send('Server is down')
+        res.status(500).send('Server is down....')
     }
+
 })
 
 
@@ -385,7 +398,7 @@ router.get('/github/:username', async (req, res) => {
     try {
 
         const options = {
-            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=vreated:asc&client_id=${config.get('github_client_ID')}&client_secret=${config.get('github_client_secret')}`,
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('github_client_ID')}&client_secret=${config.get('github_client_secret')}`,
             method: 'GET',
             headers: {
                 'user-agent': 'node.js'
