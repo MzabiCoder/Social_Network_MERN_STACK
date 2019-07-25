@@ -27,6 +27,7 @@ router.get('/:id', auth, async (req, res) => {
             })
         }
 
+
         res.json(post)
 
     } catch (err) {
@@ -58,7 +59,7 @@ router.delete('/:id', auth, async (req, res) => {
             })
         }
         // check on the user
-        if (post.user.toString() !== req.params.id) {
+        if (post.user.toString() !== req.user.id) {
             res.status(401).json({
                 message: 'user not authorized'
             })
@@ -96,10 +97,7 @@ router.get('/', auth, async (req, res) => {
             date: -1
         })
         res.json(posts)
-
-
-        res.json(post)
-
+        // res.json(post)
 
     } catch (err) {
         console.log(err.message)
@@ -116,16 +114,15 @@ router.get('/', auth, async (req, res) => {
 //@access  Private
 router.post('/', [auth,
     [
-        check('text', "Text is required")
+        check('text', "TExt is required")
         .not()
         .isEmpty()
+
 
     ]
 
 ], async (req, res) => {
     const errors = validationResult(req)
-
-
     if (!errors.isEmpty()) {
         return res.status(400).json({
             errors: errors.array()
@@ -136,6 +133,7 @@ router.post('/', [auth,
         const user = await User.findById(req.user.id).select('-password')
         const newPost = new Post({
             text: req.body.text,
+            // these infor come from user
             name: user.name,
             avatar: user.avatar,
             user: req.user.id,
@@ -168,7 +166,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
         // check if the post has already been liked
 
         if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: 'Post has not yet been liked '
             })
         }
@@ -182,6 +180,11 @@ router.put('/unlike/:id', auth, async (req, res) => {
 
     } catch (err) {
         console.error(err.message)
+        if (err.kind == 'ObjectId') {
+            return res.status(404).json({
+                message: 'Post not found!!!'
+            })
+        }
         res.status(500).send('Server Error')
     }
 })
@@ -201,7 +204,7 @@ router.put('/like/:id', auth, async (req, res) => {
         // check if the post has already been liked
 
         if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: 'Post Already like'
             })
         }
@@ -215,6 +218,11 @@ router.put('/like/:id', auth, async (req, res) => {
 
     } catch (err) {
         console.error(err.message)
+        if (err.kind == 'ObjectId') {
+            return res.status(404).json({
+                message: 'Post not found!!!'
+            })
+        }
         res.status(500).send('Server Error')
     }
 })
@@ -244,6 +252,8 @@ router.post('/comment/:id', [auth,
         // we can get the user id through the token and it puts it inside of req.user.id
         const user = await User.findById(req.user.id).select('-password')
         const post = await Post.findById(req.params.id)
+
+        // comment its not a collection in the database thats why we simply constrat a simple object to embed data into it
         const newComent = {
             text: req.body.text,
             name: user.name,
@@ -288,7 +298,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
             })
         }
         // check the user 
-        if (comment.user.toString() === req.user.id) {
+        if (comment.user.toString() !== req.user.id) {
             return res.status(401).json({
                 message: 'User not authorized'
             })

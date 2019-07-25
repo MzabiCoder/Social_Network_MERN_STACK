@@ -255,7 +255,9 @@ router.put('/experience', [auth, [
             user: req.user.id
         })
 
+
         profile.experience.unshift(newExp)
+
         await profile.save()
         res.json(profile)
 
@@ -275,6 +277,8 @@ router.delete('/experience/:id', auth, async (req, res) => {
         const profile = await Profile.findOne({
             user: req.user.id
         })
+
+
         // get and remove the index
         const removeIndex = profile.experience
             .map(item => item.id)
@@ -301,6 +305,8 @@ router.delete('/experience/:id', auth, async (req, res) => {
 // //@route   PUT api/profile
 // //@desc    Add education
 // //@access  Private
+
+
 
 router.put('/education', [auth, [
     check('school', 'Eschool is required')
@@ -351,6 +357,7 @@ router.put('/education', [auth, [
         })
 
         profile.education.unshift(newEdu)
+
         await profile.save()
         res.json(profile)
 
@@ -362,9 +369,9 @@ router.put('/education', [auth, [
 })
 
 
-//@route   del api/profile
-//@desc    del education
-//@access  Private
+// //@route   del api/profile
+// //@desc    del education
+// //@access  Private
 router.delete('/education/:id', auth, async (req, res) => {
 
     // remove experience
@@ -376,6 +383,8 @@ router.delete('/education/:id', auth, async (req, res) => {
         const removeIndex = profile.education
             .map(item => item.id)
             .indexOf(req.params.id)
+
+        //console.log(removeIndex)
 
 
         profile.education.splice(removeIndex, 1)
