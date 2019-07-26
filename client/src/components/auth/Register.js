@@ -1,7 +1,11 @@
 import React,{Fragment,useState} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
-
-const Register = () => {
+import {connect} from 'react-redux'
+import {setAlert} from '../../action/alert'
+import PropTypes from 'prop-types'
+ 
+const Register = ({setAlert}) => {
 
 
      const [formData,setFormData]=useState([{
@@ -16,7 +20,7 @@ const Register = () => {
      const submit= async e=>{
          e.preventDefault()
          if(password !== password2){
-             console.log('Paswword dont match!!!!')
+            setAlert('Password dont match!!!!','danger')
             
          } else{
             // const newUser={
@@ -48,7 +52,7 @@ const Register = () => {
       <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
       <form onSubmit={submit} className="form" action="create-profile.html">
         <div className="form-group">
-          <input onChange={e=>onChange(e)} type="text" placeholder="Name" value={name} name="name" required />
+          <input onChange={e=>onChange(e)} type="text" placeholder="Name" value={name} name="name"   />
         </div>
         <div className="form-group">
           <input onChange={e=>onChange(e)} type="email"  value={email} placeholder="Email Address" name="email" />
@@ -79,10 +83,14 @@ const Register = () => {
         <input type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+        Already have an account? <Link to="/login">Sign In</Link>
       </p>
     </Fragment>
     )
 }
 
-export default Register
+Register.propTypes={
+    setAlert:PropTypes.func.isRequired
+}
+
+export default connect(null,{setAlert})(Register)
