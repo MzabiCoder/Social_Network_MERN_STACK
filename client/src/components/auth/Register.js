@@ -4,8 +4,9 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import {setAlert} from '../../action/alert'
 import PropTypes from 'prop-types'
+import {register} from '../../action/auth'
  
-const Register = ({setAlert}) => {
+const Register = ({setAlert,register}) => {
 
 
      const [formData,setFormData]=useState([{
@@ -23,25 +24,7 @@ const Register = ({setAlert}) => {
             setAlert('Password dont match!!!!','danger')
             
          } else{
-            // const newUser={
-            //     name,
-            //     email,
-            //     password
-            // }
-            // try {
-            //     const config={
-            //         headers:{
-            //             'Content-Type':'application/json',
-            //         }
-            //     }
-            //     const body=JSON.stringify(newUser)
-            //     const res=await axios.post('/api/users',body,config)
-            //     console.log(res.data)
-                
-            // } catch (error) {
-            //      console.log(error.response.data)
-            // }
-            console.log('SUCCESS')
+            register({name,email,password})
         }
      }
      const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value})
@@ -65,7 +48,7 @@ const Register = ({setAlert}) => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
+        
             value={password}
             onChange={e=>onChange(e)}
           />
@@ -75,7 +58,7 @@ const Register = ({setAlert}) => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minLength="6"
+         
             value={password2}
             onChange={e=>onChange(e)}
           />
@@ -90,7 +73,8 @@ const Register = ({setAlert}) => {
 }
 
 Register.propTypes={
-    setAlert:PropTypes.func.isRequired
+    setAlert:PropTypes.func.isRequired,
+    register:PropTypes.func.isRequired
 }
 
-export default connect(null,{setAlert})(Register)
+export default connect(null,{setAlert,register})(Register)

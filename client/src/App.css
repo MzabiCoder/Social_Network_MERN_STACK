@@ -168,6 +168,7 @@ img {
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
+  transition: all 1s ease-in-out
 }
 
 .btn-primary,
@@ -200,6 +201,7 @@ img {
 .alert-danger {
   background: var(--danger-color);
   color: #fff;
+  transition: all 1s ease-in-out
 }
 
 .btn-success,
