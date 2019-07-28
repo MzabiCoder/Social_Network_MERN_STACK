@@ -1,8 +1,12 @@
 import React,{Fragment,useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import {login} from '../../action/auth'
 
-const Login = () => {
+
+const Login = ({login,isAuthenticated}) => {
 
 
      const [formData,setFormData]=useState([{
@@ -13,6 +17,7 @@ const Login = () => {
      }])
 
      const {name,email,password,password2}=formData
+     const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value})
 
      const submit= async e=>{
          e.preventDefault()
@@ -35,11 +40,18 @@ const Login = () => {
             // } catch (error) {
             //      console.log(error.response.data)
             // }
-            console.log('SUCCESS')
+           // console.log('SUCCESS')
+           login(email,password)
         
      }
-     const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value})
 
+
+     // redirect if looged in
+
+     if(isAuthenticated){
+      
+       return <Redirect to='/dashboard' />
+     }
     return (
         <Fragment>
        <h1 className="large text-primary">Sign In</h1>
@@ -69,4 +81,12 @@ const Login = () => {
     )
 }
 
-export default Login
+Login.propTypes={
+login:PropTypes.func.isRequired,
+isAutenticated:PropTypes.bool
+}
+
+const map=state=>({
+  isAuthenticated:state.auth.isAuthenticated
+})
+export default connect(map,{login})(Login)
