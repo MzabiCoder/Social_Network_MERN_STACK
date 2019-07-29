@@ -1,6 +1,6 @@
 import React,{Fragment,useState} from 'react'
 import {Link,Redirect} from 'react-router-dom'
-import axios from 'axios'
+//import axios from 'axios'
 import {connect} from 'react-redux'
 import {setAlert} from '../../action/alert'
 import PropTypes from 'prop-types'

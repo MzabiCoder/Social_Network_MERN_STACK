@@ -3,11 +3,14 @@ import './App.css';
 import Navbar from './components/layouts/Navbar'
 import Landing from './components/layouts/Landing'
 // import Dashboard from './components/dashboard/Dashboard'
+import CreateProfile from './components/forms/CreateProfile'
  import Login from './components/auth/Login'
  import Register from './components/auth/Register'
  import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
  import Alert from './components/layouts/Alert'
+ import Dashboard from './components/dashboard/Dashboard'
  import {LoadUser} from './action/auth'
+ import PrivateRoute from './components/router/PrivateRoute'
 // import PrivateRoute from  './components/routing/PrivateRoute'
 // import CreateProfile from './components/profile-forms/CreateProfile'
 // import {LoadUser} from './action/auth'
@@ -39,6 +42,8 @@ const App=()=> {
       <Switch>
       <Route  path="/register" component={Register}/>
       <Route  path="/login" component={Login}/>
+      <PrivateRoute  path="/create-profile" component={CreateProfile}/>
+      <PrivateRoute  path="/dashboard" component={Dashboard}/>
       </Switch>
       </section>
     </Fragment>

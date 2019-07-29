@@ -24,7 +24,7 @@ router.get('/me', auth, async (req, res) => {
 
         if (!profile) {
             return res.status(400).json({
-                message: `There os nor profilr for this user : ${req.user.name}`
+                message: `There os nor profilr for this user `
             })
         }
 
