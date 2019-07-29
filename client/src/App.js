@@ -4,6 +4,7 @@ import Navbar from './components/layouts/Navbar'
 import Landing from './components/layouts/Landing'
 // import Dashboard from './components/dashboard/Dashboard'
 import CreateProfile from './components/forms/CreateProfile'
+import EditProfile from './components/forms/EditProfile'
  import Login from './components/auth/Login'
  import Register from './components/auth/Register'
  import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
@@ -43,6 +44,7 @@ const App=()=> {
       <Route  path="/register" component={Register}/>
       <Route  path="/login" component={Login}/>
       <PrivateRoute  path="/create-profile" component={CreateProfile}/>
+      <PrivateRoute  path="/edite-profile" component={EditProfile}/>
       <PrivateRoute  path="/dashboard" component={Dashboard}/>
       </Switch>
       </section>
