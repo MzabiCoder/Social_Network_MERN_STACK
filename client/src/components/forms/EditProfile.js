@@ -1,8 +1,9 @@
 import React,{Fragment,useState,useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {getCurrentProfile} from '../../action/profile'
-import {withRouter} from 'react-router-dom'
+import {createProfile,getCurrentProfile} from '../../action/profile'
+import {withRouter,Link} from 'react-router-dom'
+
 
 
 const EditProfile = ({profile:{profile,loading},createProfile,history,getCurrentProfile}) => {
@@ -33,12 +34,12 @@ const EditProfile = ({profile:{profile,loading},createProfile,history,getCurrent
             skills:loading || !profile.skills ? ' ':profile.skills.join(','),
             githubusername:loading || !profile.githubusername ? '':profile.githubusername,
             bio:loading || !profile.bio ? '':profile.bio,
-            twitter:loading || !profile.twitter ? '': profile.twitter,
-            facebook:loading || !profile.facebook ? '': profile.facebook, 
-            instagram:loading || !profile.instagram ? '': profile.instagram,
-            linkedin:loading || !profile.linkedin ? '': profile.linkedin,
-            youtube:loading || !profile.youtube ? '': profile.youtube,
-            location:loading || !profile.location ? '': profile.location
+            twitter:loading || !profile.social ? '': profile.social.twitter,
+            facebook:loading || !profile.social ? '': profile.social.facebook, 
+            instagram:loading || !profile.social ? '': profile.social.instagram,
+            linkedin:loading || !profile.social ? '': profile.social.linkedin,
+            youtube:loading || !profile.social ? '': profile.social.youtube,
+            location:loading || !profile.social ? '': profile.social.location
         })
     },[loading])
 
@@ -61,7 +62,7 @@ const EditProfile = ({profile:{profile,loading},createProfile,history,getCurrent
 
         const Submit=e=>{
            e.preventDefault()
-           createProfile(formData,history)
+           createProfile(formData,history,true)
         }
     return (
         <Fragment>
@@ -163,7 +164,8 @@ const EditProfile = ({profile:{profile,loading},createProfile,history,getCurrent
 
      
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">Go Back</a>
+        <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
+
       </form>
         </Fragment>
     )
@@ -179,4 +181,4 @@ const map=state=>({
     profile:state.profile
 })
 
-export default connect(map,{ getCurrentProfile})(withRouter(EditProfile))
+export default connect(map,{createProfile,getCurrentProfile})(withRouter(EditProfile))

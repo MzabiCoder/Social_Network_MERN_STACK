@@ -12,6 +12,8 @@ import EditProfile from './components/forms/EditProfile'
  import Dashboard from './components/dashboard/Dashboard'
  import {LoadUser} from './action/auth'
  import PrivateRoute from './components/router/PrivateRoute'
+ import Addexperience from './components/forms/Addexperience'
+ import Addeducation from './components/forms/Addeducation'
 // import PrivateRoute from  './components/routing/PrivateRoute'
 // import CreateProfile from './components/profile-forms/CreateProfile'
 // import {LoadUser} from './action/auth'
@@ -44,8 +46,10 @@ const App=()=> {
       <Route  path="/register" component={Register}/>
       <Route  path="/login" component={Login}/>
       <PrivateRoute  path="/create-profile" component={CreateProfile}/>
-      <PrivateRoute  path="/edite-profile" component={EditProfile}/>
+      <PrivateRoute  path="/edit-profile" component={EditProfile}/>
       <PrivateRoute  path="/dashboard" component={Dashboard}/>
+      <PrivateRoute  path="/add-experience" component={Addexperience}/>
+      <PrivateRoute  path="/add-education" component={Addeducation}/>
       </Switch>
       </section>
     </Fragment>

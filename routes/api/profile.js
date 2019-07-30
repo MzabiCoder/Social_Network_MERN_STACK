@@ -20,7 +20,7 @@ router.get('/me', auth, async (req, res) => {
         const profile = await Profile.findOne({
                 user: req.user.id
             })
-            .populate('user', ['name', 'avatar']) // we can get these name and avatar from User Model
+            .populate('user', ['name', 'avatar']) // we can get these name and avatar frome User Model
 
         if (!profile) {
             return res.status(400).json({
