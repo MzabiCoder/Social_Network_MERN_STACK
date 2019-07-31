@@ -382,6 +382,15 @@ button {
   margin-bottom: 1rem;
 }
 
+.spinner{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Profile Page */
 .profile-grid {
   display: grid;

@@ -1,4 +1,4 @@
-import {PROFILE_ERROR,GET_PROFILE,CLEAR_PROFILE,UPDATE_PROFILE} from '../action/types'
+import {PROFILE_ERROR,GET_REPOS,GET_PROFILE,GET_PROFILES,CLEAR_PROFILE,UPDATE_PROFILE} from '../action/types'
 const Istate={
     profile:null,
     profiles:[],
@@ -18,7 +18,18 @@ export default function(state=Istate,action){
                 profile:payload,
                 loading:false
             }
-          
+          case GET_PROFILES:
+              return{
+                  ...state,
+                  profiles:payload,
+                  loading:false
+              }
+           case GET_REPOS:
+           return {
+               ...state,
+               repos:payload,
+               loading:false,
+           }   
             case PROFILE_ERROR:
                 return{
                     ...state,

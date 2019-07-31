@@ -1,6 +1,5 @@
 import React,{Fragment,useState} from 'react'
 import {Link,Redirect} from 'react-router-dom'
-import axios from 'axios'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {login} from '../../action/auth'
@@ -16,7 +15,7 @@ const Login = ({login,isAuthenticated}) => {
          password2:''
      }])
 
-     const {name,email,password,password2}=formData
+     const {email,password}=formData
      const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value})
 
      const submit= async e=>{

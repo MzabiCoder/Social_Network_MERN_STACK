@@ -3,12 +3,12 @@ import spinner from '../../img/spinner.gif'
 
 const Spinner = () => {
     return (
-        <Fragment>
+        <div className="spinner">
          <img src={spinner} 
-         style={{width:'200px',margin:'auto',dispaly:'block'}}
+         style={{width:'250px',margin:'auto',dispaly:'block'}}
          alt=""
          />
-        </Fragment>    
+        </div>    
     )}
 
 export default Spinner
