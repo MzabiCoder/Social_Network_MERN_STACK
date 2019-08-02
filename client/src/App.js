@@ -18,6 +18,8 @@ import Profiles from './components/profiles/Profiles'
  import setAuthToken from './utils/setAuthToken'
  import {Provider} from 'react-redux'
  import store from './store'
+ import Posts from './components/posts/Posts'
+ import Post from './components/post/Post'
 
  
 if (localStorage.token){
@@ -50,6 +52,10 @@ const App=()=> {
       <PrivateRoute  path="/dashboard" component={Dashboard}/>
       <PrivateRoute  path="/add-experience" component={Addexperience}/>
       <PrivateRoute  path="/add-education" component={Addeducation}/>
+      <PrivateRoute  path="/posts" component={Posts}/>
+      <PrivateRoute  path="/post/:id" component={Post}/>
+
+
       </Switch>
       </section>
     </Fragment>
