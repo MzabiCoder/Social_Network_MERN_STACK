@@ -1,7 +1,7 @@
 import React,{Fragment,useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {delComment,addComment} from '../../action/post'
+import {addComment} from '../../action/post'
 
 const CommentForm = ({addComment,postId}) => {
 

@@ -205,7 +205,7 @@ router.put('/like/:id', auth, async (req, res) => {
 
         if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
             return res.status(400).json({
-                message: 'Post Already like'
+                message: 'Post Already liked'
             })
         }
         post.likes.unshift({
@@ -218,11 +218,11 @@ router.put('/like/:id', auth, async (req, res) => {
 
     } catch (err) {
         console.error(err.message)
-        if (err.kind == 'ObjectId') {
-            return res.status(404).json({
-                message: 'Post not found!!!'
-            })
-        }
+        // if (err.kind == 'ObjectId') {
+        //     return res.status(404).json({
+        //         message: 'Post not found!!!'
+        //     })
+        // }
         res.status(500).send('Server Error')
     }
 })

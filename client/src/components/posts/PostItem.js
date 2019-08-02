@@ -5,15 +5,12 @@ import Moment from 'react-moment'
 import {connect} from 'react-redux'
 import {removeLike,addLike,delPost} from '../../action/post'
 
-const PostItem = ({auth,delPost,removeLike,addLike,post:{
+const PostItem = ({auth,delPost,removeLike,addLike,showAction,post:{
     _id,text,
     name,avatar,
     user,likes,
-    showAction,
     comments,date}}) => {
-    return (
-        <Fragment>
-        <div className="post bg-white p-1 my-1">
+    return <div className="post bg-white p-1 my-1">
         <div>
           <Link to={`/profile/${user}`}>
             <img
@@ -31,46 +28,53 @@ const PostItem = ({auth,delPost,removeLike,addLike,post:{
            <p className="post-date">
               Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
           </p>
+   
+           {showAction && <Fragment>
+            
+            
+          <button onClick={e=>addLike(_id)} type="button" className="btn btn-light">
+          <i className="fas fa-thumbs-up"></i> {'  '}
+         <span>{likes.length > 0 && (
+          <span>{likes.length}</span>
 
-          {!showAction && <Fragment>
-            <button onClick={e=>addLike(_id)} type="button" className="btn btn-light">
-            <i className="fas fa-thumbs-up"></i> {'  '}
-            <span>{likes.length >0 && (
-                <span>{likes.length}</span>
+      )}</span>
+        </button>
+        <button onClick={e=>removeLike(_id)} type="button" className="btn btn-light">
+          <i className="fas fa-thumbs-down"></i>
+        </button>
+        <Link to={`/post/${_id}`} className="btn btn-primary">
+          Discussion {comments.length >0 && (
+              <span className='comment-count'>{comments.length}</span>
 
-            )}</span>
-          </button>
-          <button onClick={e=>removeLike(_id)} type="button" className="btn btn-light">
-            <i className="fas fa-thumbs-down"></i>
-          </button>
-          <Link to={`/post/${_id}`} className="btn btn-primary">
-            Discussion {comments.length >0 && (
-                <span className='comment-count'>{comments.length}</span>
+          )}
+        </Link>
 
-            )}
-          </Link>
-
-        
-            <button 
-            onClick={()=>delPost(_id)}     
-            type="button"
-            className="btn btn-danger"
-          >
-            <i className="fas fa-times"></i>
-          </button>
+         {!auth.loading && user === auth.user._id && (
+          <button 
+          onClick={()=>delPost(_id)}     
+          type="button"
+          className="btn btn-danger"
+        >
+          <i className="fas fa-times"></i>
+        </button>
+         )}
+      
+       
+    
             
             </Fragment>}
-    
+       
  
         
         </div>
       </div>
-        </Fragment>
-    )
+      
+    
 }
 
-PostItem.defaultProps={
-    showAction:true
+
+PostItem.defaultProps = {
+  showAction:true
 }
 
 PostItem.propTypes = {

@@ -75,10 +75,10 @@ export const removeLike=(id)=>async dispatch=>{
             const res=await axios.delete(`/api/posts/${id}`)
             dispatch({
                 type:DELETE_POST,
-                payload:{id,likes:res.data}
+                payload:id
             })
 
-            dispatch(setAlert('Post has been deleted','danger'))
+            dispatch(setAlert('Post removed','success'))
             
         } catch (error) {
             dispatch({
@@ -159,7 +159,7 @@ export const removeLike=(id)=>async dispatch=>{
                 payload:res.data
             })
 
-            dispatch(setAlert('COmmentt added created !!','success'))
+            dispatch(setAlert('Commentt added created !!','success'))
 
             
         } catch (error) {
@@ -183,7 +183,7 @@ export const removeLike=(id)=>async dispatch=>{
                     payload:CommentId
                 })
     
-                dispatch(setAlert('Commentt removed !!','success'))
+                dispatch(setAlert('Comment removed !!','danger'))
     
                 
             } catch (error) {
